@@ -1,19 +1,17 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+// import Head from 'next/head'
+// import Image from 'next/image'
+// import { Inter } from '@next/font/google'
+// import styles from '@/styles/Home.module.css'
 import { useState } from 'react'
 
 export default function Home() {
   const [todo,settodo] = useState("");
-  const [addtodo,setAddtodo]  = useState("");
-  const todoList:Array<string> = [];
+  const [todoList,settodoList] = useState([""]);
   const onClickAddtodo = () => {
-    setAddtodo(todo);
+    settodoList([...todoList, todo])
     settodo("");
-    todoList.push(addtodo)
-    {todoList.map((todoItem, index)=>(<div key={index}>{todoItem}</div>))}
   };
+ 
 
   return (
     <div>
@@ -24,7 +22,10 @@ export default function Home() {
         onChange={event => settodo(event.target.value)}>
       </input>
       <button onClick={onClickAddtodo} >登録</button>
-      <p>・{addtodo}</p>
+      <p>・{todo}</p>
+      <div>
+        {todoList.map((todoItem, index)=>(<div key={index}>・{todoItem}</div>))}
+      </div>
     </div>
     )
 }
