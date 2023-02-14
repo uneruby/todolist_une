@@ -6,10 +6,10 @@ import { useState } from 'react'
 
 export default function Home() {
   const [todo,settodo] = useState("");
-  const [todoList,settodoList] = useState([""]);
+  const [todoList,settodoList] = useState([{ taskName: "", state: false, details: ""}]);
   const onClickAddtodo = () => {
-    settodoList([...todoList, todo])
-    settodo("");
+    settodoList([...todoList, { taskName: todo, state: false, details: ""}])
+    settodo("")
   };
  
 
@@ -22,9 +22,14 @@ export default function Home() {
         onChange={event => settodo(event.target.value)}>
       </input>
       <button onClick={onClickAddtodo} >登録</button>
-      <p>・{todo}</p>
       <div>
-        {todoList.map((todoItem, index)=>(<div key={index}>・{todoItem}</div>))}
+        {todoList.map((todoView, index)=>(
+          <div key={index}>
+            <input type="checkbox"></input>{todoView.taskName}
+          </div>))}
+      </div>
+      <div>
+        <button>終了済み</button>
       </div>
     </div>
     )
