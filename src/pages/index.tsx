@@ -8,6 +8,7 @@ import { Alltasks } from '@/parts/Alltasks';
 export default function Home() {
   return (
     <div>
+      <p>todo</p>
       <Alltasks/>
     </div>
     )
