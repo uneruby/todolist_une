@@ -3,7 +3,8 @@
 // import { Inter } from '@next/font/google'
 // import styles from '@/styles/Home.module.css'
 import { useState } from 'react'
-import { Alltasks } from '@/parts/Alltasks';
+import { TaskVeiwer } from '@/parts/TaskViewer'
+import { Alltasks } from '@/parts/Alltasks'
 
 export default function Home() {
   return (

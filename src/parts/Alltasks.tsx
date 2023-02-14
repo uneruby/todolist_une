@@ -1,21 +1,54 @@
+import { delimiter } from "path";
 import React from "react";
 import { useState } from 'react';
 type task = {
-    taskName: String, 
+    taskName: string, 
     state: boolean, 
-    details: String,
+    details: string,
 }
 
 export const Alltasks:React.FC = () => {
     const [todo,settodo] = useState("");
     const [detail,setdetail] = useState("");
     const [todoList,settodoList] = useState<task[]>([]);
-    const onClickAddtodo = () => {
+    var finishtodoList = [];
+
+    const addtodo = () => {
         settodoList([...todoList, { taskName: todo, state: false, details: detail}])
         settodo("")
         setdetail("")
     };
- 
+    const getState = (index:number, taskName:string) => {
+        console.log(index)
+
+        var result = finishtodoList.some( function( value ) {
+            return value === index;
+        });
+
+    if(result){
+        finishtodoList.splice(index,1)
+        todoList[index].state = false
+        console.table(finishtodoList)
+    }else{
+        finishtodoList.push(index)
+        todoList[index].state = true
+        console.table(finishtodoList)
+    }
+       
+    console.table(todoList)
+    }
+    
+    const updatetodoList = () => {
+        var newtodoList = todoList
+        for(let i = 0; i < finishtodoList.length; i++) {
+            var delIndex = finishtodoList[i]
+            newtodoList.splice(delIndex,1)
+        }
+        console.log("update : ", newtodoList);
+        settodoList([...newtodoList])
+        finishtodoList = []
+        console.table(todoList)
+    }
 
   return (
     <div>
@@ -31,15 +64,15 @@ export const Alltasks:React.FC = () => {
         placeholder="詳細"
         onChange={event => setdetail(event.target.value)}>
       </input>
-      <button onClick={onClickAddtodo} >登録</button>
+      <button onClick={addtodo}>登録</button>
       <div>
         {todoList.map((todoView, index)=>(
           <div key={index}>
-            <input type="checkbox"></input>{todoView.taskName}：{todoView.details}
+            <input type="checkbox" onChange={() => getState(index, todoView.taskName)}></input>{todoView.taskName}：{todoView.details}：{todoView.state +""}
           </div>))}
       </div>
       <div>
-        <button>終了済み</button>
+        <button onClick={updatetodoList}>終了済み</button>
       </div>
     </div>
     )
