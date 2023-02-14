@@ -19,12 +19,9 @@ export const Alltasks:React.FC = () => {
         setdetail("")
     };
     const getState = (index:number, taskName:string) => {
-        console.log(index)
-
         var result = finishtodoList.some( function( value ) {
             return value === index;
         });
-        console.log("aaaaaa", result)
     if(result){
         finishtodoList = finishtodoList.filter(n => n!==index )
         todoList[index].state = false
@@ -39,16 +36,9 @@ export const Alltasks:React.FC = () => {
     }
     
     const updatetodoList = () => {
-        var newtodoList = todoList
-        for(let i = 0; i < finishtodoList.length; i++) {
-            var delIndex = finishtodoList[i]
-            newtodoList.splice(delIndex,1)
-            console.log(delIndex)
-        }
-        console.log("update : ", newtodoList);
+        var newtodoList = todoList.filter(todo => todo.state === false)
+        console.table(newtodoList);
         settodoList([...newtodoList])
-        finishtodoList = []
-        console.table(todoList)
     }
 
   return (
@@ -69,7 +59,7 @@ export const Alltasks:React.FC = () => {
       <div>
         {todoList.map((todoView, index)=>(
           <div key={index}>
-            <input type="checkbox" onChange={() => getState(index, todoView.taskName)}></input>{todoView.taskName}：{todoView.details}：{todoView.state +""}
+            <input type="checkbox" onChange={() => getState(index, todoView.taskName)}></input>{todoView.taskName}：{todoView.details}
           </div>))}
       </div>
       <div>
