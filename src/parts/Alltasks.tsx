@@ -11,7 +11,7 @@ export const Alltasks:React.FC = () => {
     const [todo,settodo] = useState("");
     const [detail,setdetail] = useState("");
     const [todoList,settodoList] = useState<task[]>([]);
-    var finishtodoList = [];
+    var finishtodoList: number[] = [];
 
     const addtodo = () => {
         settodoList([...todoList, { taskName: todo, state: false, details: detail}])
@@ -24,9 +24,9 @@ export const Alltasks:React.FC = () => {
         var result = finishtodoList.some( function( value ) {
             return value === index;
         });
-
+        console.log("aaaaaa", result)
     if(result){
-        finishtodoList.splice(index,1)
+        finishtodoList = finishtodoList.filter(n => n!==index )
         todoList[index].state = false
         console.table(finishtodoList)
     }else{
@@ -43,6 +43,7 @@ export const Alltasks:React.FC = () => {
         for(let i = 0; i < finishtodoList.length; i++) {
             var delIndex = finishtodoList[i]
             newtodoList.splice(delIndex,1)
+            console.log(delIndex)
         }
         console.log("update : ", newtodoList);
         settodoList([...newtodoList])
