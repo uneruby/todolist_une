@@ -3,29 +3,14 @@
 // import { Inter } from '@next/font/google'
 // import styles from '@/styles/Home.module.css'
 import { useState } from 'react'
+import { TaskVeiwer } from '@/parts/TaskViewer'
+import { Alltasks } from '@/parts/Alltasks'
 
 export default function Home() {
-  const [todo,settodo] = useState("");
-  const [todoList,settodoList] = useState([""]);
-  const onClickAddtodo = () => {
-    settodoList([...todoList, todo])
-    settodo("");
-  };
- 
-
   return (
     <div>
       <p>todo</p>
-      <input 
-        type="text"
-        value={todo}
-        onChange={event => settodo(event.target.value)}>
-      </input>
-      <button onClick={onClickAddtodo} >登録</button>
-      <p>・{todo}</p>
-      <div>
-        {todoList.map((todoItem, index)=>(<div key={index}>・{todoItem}</div>))}
-      </div>
+      <Alltasks/>
     </div>
     )
 }
