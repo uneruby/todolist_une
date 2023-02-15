@@ -10,27 +10,24 @@ type task = {
 export const Alltasks:React.FC = () => {
     const [todo,settodo] = useState("");
     const [detail,setdetail] = useState("");
+    const [state,setState] = useState(false)
     const [todoList,settodoList] = useState<task[]>([]);
-    var finishtodoList: number[] = [];
 
     const addtodo = () => {
-        settodoList([...todoList, { taskName: todo, state: false, details: detail}])
+        settodoList([...todoList, { taskName: todo, state: state, details: detail}])
         settodo("")
         setdetail("")
     };
-    const getState = (index:number, taskName:string) => {
-        var result = finishtodoList.some( function( value ) {
-            return value === index;
-        });
-    if(result){
-        finishtodoList = finishtodoList.filter(n => n!==index )
+    const getState = (index: number, beforeState: boolean) => {
+      if(beforeState){
+        setState(false)
         todoList[index].state = false
-        console.table(finishtodoList)
-    }else{
-        finishtodoList.push(index)
+        settodoList([...todoList])
+      }else{
+        setState(true)
         todoList[index].state = true
-        console.table(finishtodoList)
-    }
+        settodoList([...todoList])
+      }
        
     console.table(todoList)
     }
@@ -59,7 +56,7 @@ export const Alltasks:React.FC = () => {
       <div>
         {todoList.map((todoView, index)=>(
           <div key={index}>
-            <input type="checkbox" onChange={() => getState(index, todoView.taskName)}></input>{todoView.taskName}：{todoView.details}
+            <input type="checkbox" checked={todoView.state} onChange={() => getState(index, todoView.state)}></input>{todoView.taskName}：{todoView.details}
           </div>))}
       </div>
       <div>
