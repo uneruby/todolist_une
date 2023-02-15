@@ -12,6 +12,7 @@ export const Alltasks:React.FC = () => {
     const [detail,setdetail] = useState("");
     const [state,setState] = useState(false)
     const [todoList,settodoList] = useState<task[]>([]);
+    const [viewTask, setViewTask] = useState("All")
 
     const addtodo = () => {
         settodoList([...todoList, { taskName: todo, state: state, details: detail}])
@@ -36,6 +37,17 @@ export const Alltasks:React.FC = () => {
         var newtodoList = todoList.filter(todo => todo.state === false)
         console.table(newtodoList);
         settodoList([...newtodoList])
+        setState(false)
+    }
+
+    const viewAllTasks = () => {
+      setViewTask("All")
+    }
+    const viewCompTasks = () => {
+      setViewTask("Comp")
+    }
+    const viewUnCompTasks = () => {
+      setViewTask("UnComp")
     }
 
   return (
@@ -54,13 +66,47 @@ export const Alltasks:React.FC = () => {
       </input>
       <button onClick={addtodo}>登録</button>
       <div>
-        {todoList.map((todoView, index)=>(
-          <div key={index}>
-            <input type="checkbox" checked={todoView.state} onChange={() => getState(index, todoView.state)}></input>{todoView.taskName}：{todoView.details}
-          </div>))}
+        <button onClick={viewAllTasks}>全てのタスク</button>
+        <button onClick={viewCompTasks}>完了したタスク</button>
+        <button onClick={viewUnCompTasks}>未完了のタスク</button>
       </div>
       <div>
-        <button onClick={updatetodoList}>終了済み</button>
+        <button onClick={updatetodoList}>完了したタスクを削除する</button>
+      </div>
+      <div>
+        {viewTask == "All" && todoList.map((todoView, index)=>(
+          <div key={index}>
+            <input type="checkbox" checked={todoView.state} onChange={() => getState(index, todoView.state)}></input>{todoView.taskName}:{todoView.details}
+          </div>))
+        }
+      </div>
+      <div> 
+        {viewTask == "Comp" && todoList.map((todoView, index)=>{
+          return(
+            <div key={index}>
+              {todoView.state == true? 
+                <div>
+                  <input type="checkbox" checked={todoView.state} onChange={() => getState(index, todoView.state)}></input>{todoView.taskName}:{todoView.details}
+                </div>
+                :""
+              }
+            </div>
+            )
+        })}
+      </div>
+      <div>
+        {viewTask == "UnComp" && todoList.map((todoView, index)=>{
+          return(
+            <div key={index}>
+              {todoView.state == false? 
+                <div>
+                  <input type="checkbox" checked={todoView.state} onChange={() => getState(index, todoView.state)}></input>{todoView.taskName}:{todoView.details}
+                </div>
+                :""
+              }
+            </div>
+          )
+        })}
       </div>
     </div>
     )
